@@ -1,0 +1,210 @@
+/// I can not imaging what can I do with this code to creat forms in Windows Form Application.///
+/// Please help me. Write examples in my code and add it. ///
+/// And plase explain work of code here with constructure if/else.///
+
+
+
+
+using System;
+using System.IO;
+using System.Windows.Forms;
+using TLSharp.Core.MTProto;
+using TLSharp.Core.MTProto.Crypto;
+using TLSharp.Core.Registration;
+using TLSharp.Core.Requests;
+
+namespace VoikinC
+{
+    internal class SignUP  : Form
+    {
+        private FolderBrowserDialog folderBrowserDialog1;
+        private OpenFileDialog openFileDialog1;
+        private TextBox textBox1;
+        private TextBox textBox2;
+        private FontDialog fontDialog1;
+        private TextBox textBox3;
+        private System.ComponentModel.IContainer components;
+
+        private void InitializeComponent()
+        {
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
+            // textBox1
+            // 
+            this.textBox1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.textBox1.Location = new System.Drawing.Point(27, 40);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(163, 20);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.Text = "Your Full Name";
+            // 
+            // textBox2
+            // 
+            this.textBox2.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.textBox2.Location = new System.Drawing.Point(27, 99);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(163, 20);
+            this.textBox2.TabIndex = 1;
+            this.textBox2.Text = "Your Username";
+            // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.Color.White;
+            this.textBox3.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.textBox3.Location = new System.Drawing.Point(27, 148);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(162, 20);
+            this.textBox3.TabIndex = 2;
+            this.textBox3.Text = "Your phone number";
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            // 
+            // SignUP
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
+            this.ForeColor = System.Drawing.Color.DarkBlue;
+            this.Name = "SignUP";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        private void folderBrowserDialog1_HelpRequest(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, System.EventArgs e)
+        {
+
+        }
+            
+    
+        private class Registation : MTProtoRequest
+        {
+            private readonly string _phoneNumber;
+            private readonly string _phoneCodeHash;
+            public bool _smsSent;
+
+            public Registation(string phoneNumber, string phoneCodeHash)
+            {
+                _phoneNumber = phoneNumber;
+                _phoneCodeHash = phoneCodeHash;
+            }
+
+            public override void OnSend(BinaryWriter writer)
+            {
+                writer.Write(0xda9f3e8);
+                Serializers.String.write(writer, _phoneNumber);
+                Serializers.String.write(writer, _phoneCodeHash);
+            }
+
+            public override void OnResponse(BinaryReader reader)
+            {
+                var dataCode = reader.ReadUInt32();
+                _smsSent = reader.ReadUInt32() == 0x997275b5;
+            }
+
+            public override void OnException(Exception exception)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override void OnSend(BinaryWriter writer)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override void OnResponse(BinaryReader reader)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override void OnException(Exception exception)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override bool Confirmed => true;
+            public override bool Responded { get; }
+        }
+    }
+}
+
+class textBox3_TextChanged
+{
+
+   
+
+
+
+}
+
+namespace Registration
+{
+
+    class checkphone
+    {
+        private static object phoneNumber;
+        private static object _phoneCodeHash;
+        private static object _phoneNumber;
+
+        public static object phoneCodeHash { get; private set; }
+
+        public AuthSendSmsRequest(string phoneNumber, string phoneCodeHash)
+        {
+            _phoneNumber = phoneNumber;
+            _phoneCodeHash = phoneCodeHash;
+        }
+
+        public override void OnSend(BinaryWriter writer)
+        {
+            writer.Write(0xda9f3e8);
+            Serializers.String.write(writer, _phoneNumber);
+            Serializers.String.write(writer, _phoneCodeHash);
+        }
+
+        public override void OnResponse(BinaryReader reader)
+        {
+            var dataCode = reader.ReadUInt32();
+            _smsSent = reader.ReadUInt32() == 0x997275b5;
+        }
+
+        public override void OnException(Exception exception)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Confirmed => true;
+        public override bool Responded { get; }
+    }
+}
+
+
